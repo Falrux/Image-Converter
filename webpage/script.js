@@ -87,7 +87,7 @@ async function convertImages() {
         const results = [];
         for (let i = 0; i < imagesToProcess.length; i++) {
             if (i > 0) {
-                await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+                await new Promise(resolve => setTimeout(resolve, 750)); // 0.75 second delay
             }
             
             const result = await processImage(imagesToProcess[i]);
@@ -148,17 +148,19 @@ async function processImage(imageObj) {
 function displayResults(results) {
     const previewGrid = document.getElementById('preview-grid');
     previewGrid.innerHTML = '';
-
-    results.forEach(result => {
-        const previewItem = document.createElement('div');
-        previewItem.className = 'preview-item';
-        previewItem.innerHTML = `
-            <img src="${result.convertedUrl}" alt="Converted image" style="width: 100%; border-radius: 10px; border: 1px solid #222;">
-            <a href="${result.downloadUrl}" class="download-btn" download>Download</a>
-        `;
-        previewGrid.appendChild(previewItem);
+    
+    results.forEach((result, index) => {
+        if (result.success) {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'preview-item';
+            previewItem.innerHTML = `
+                <img src="${result.convertedUrl}" alt="Converted image" onerror="retryImage(this, ${index})">
+                <a href="${result.downloadUrl}" class="download-btn" download>Download</a>
+            `;
+            previewGrid.appendChild(previewItem);
+        }
     });
-
+    
     const downloadBtn = document.getElementById('download-all-btn');
     if (results.length === 1) {
         downloadBtn.textContent = 'Download';
@@ -171,6 +173,12 @@ function displayResults(results) {
     }
 
     document.getElementById('preview').style.display = 'block';
+}
+
+function retryImage(imgElement, index) {
+    setTimeout(() => {
+        imgElement.src = imgElement.src;
+    }, 3000);
 }
 
 
