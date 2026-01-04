@@ -87,7 +87,7 @@ async function convertImages() {
         const results = [];
         for (let i = 0; i < imagesToProcess.length; i++) {
             if (i > 0) {
-                await new Promise(resolve => setTimeout(resolve, 750)); // 0.75 second delay
+                await new Promise(resolve => setTimeout(resolve, 200)); // 0.2 second delay
             }
             
             const result = await processImage(imagesToProcess[i]);
