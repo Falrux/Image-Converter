@@ -87,7 +87,7 @@ async function convertImages() {
         const results = [];
         for (let i = 0; i < imagesToProcess.length; i++) {
             if (i > 0) {
-                await new Promise(resolve => setTimeout(resolve, 200)); // 0.2 second delay
+                await new Promise(resolve => setTimeout(resolve, 500)); // 0.5 second delay
             }
             
             const result = await processImage(imagesToProcess[i]);
@@ -178,7 +178,7 @@ function displayResults(results) {
 function retryImage(imgElement, index) {
     setTimeout(() => {
         imgElement.src = imgElement.src;
-    }, 3000);
+    }, 500);
 }
 
 
