@@ -84,7 +84,18 @@ async function convertImages() {
     convertedFiles = []; // This SHOULD reset past converted files
 
     try {
-        const results = await Promise.all(imagesToProcess.map(processImage));
+        const results = [];
+        for (let i = 0; i < imagesToProcess.length; i++) {
+            if (i > 0) {
+                await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+            }
+            
+            const result = await processImage(imagesToProcess[i]);
+            results.push(result);
+            
+            showMessage(`Converting ${i + 1}/${imagesToProcess.length} image(s) from ${imagesToProcess[0].type === 'url' ? 'Urls' : 'files'}`, 'success');
+        }
+        
         displayResults(results.filter(r => r.success));
         showMessage(`Finished converting ${results.filter(r => r.success).length} out of ${results.length} image(s)`, 'success');
     } catch (error) {
