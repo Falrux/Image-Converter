@@ -5,6 +5,7 @@ import uuid
 import requests
 import zipfile
 import io
+import time
 from flask import Flask, request, jsonify, send_from_directory, render_template, send_file
 from flask_cors import CORS
 from PIL import Image
@@ -28,6 +29,30 @@ class Config:
     ALLOWED_FORMATS = ['png', 'jpeg', 'jpg', 'webp'] # TODO: Add more image formats later
     
     MAX_FILE_SIZE = 250 * 1024 * 1024 # 250MB
+    CLEANUP_DELAY = 30 # Delete files after 30 seconds
+
+
+
+file_registry = {}
+def cleanup_old_files():
+    current_time = time.time()
+    files_to_remove = []
+    
+    for filename, creation_time in list(file_registry.items()):
+        if current_time - creation_time > Config.CLEANUP_DELAY:
+            file_path = os.path.join(Config.STATIC, filename)
+            if os.path.exists(file_path):
+                try:
+                    os.remove(file_path)
+                    files_to_remove.append(filename)
+                except:
+                    pass
+    
+    for filename in files_to_remove:
+        del file_registry[filename]
+
+def register_file(filename):
+    file_registry[filename] = time.time()
 
 
 
@@ -63,6 +88,8 @@ def serve_js():
 
 @app.route('/convert_image', methods=['POST'])
 def convert_image():
+    cleanup_old_files()
+    
     try:
         target_format = request.form.get('format', 'png').lower()
         if target_format not in Config.ALLOWED_FORMATS:
@@ -120,6 +147,8 @@ def convert_image():
                 
                 static_path = os.path.join(Config.STATIC, output_filename)
                 img.save(static_path, format=target_format.upper(), **save_kwargs)
+                
+                register_file(output_filename)
                 
         except Exception as e:
             return jsonify({"status": "error", "message": f"Image conversion failed: {str(e)}"}), 500
