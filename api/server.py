@@ -99,22 +99,6 @@ def convert_image():
                 if img.mode != 'RGB':
                     img = img.convert('RGB')
                 
-                target_size = 500
-                width, height = img.size
-                
-                if width > height:
-                    left = (width - height) // 2
-                    top = 0
-                    right = left + height
-                    bottom = height
-                else:
-                    left = 0
-                    top = (height - width) // 2
-                    right = width
-                    bottom = top + width
-                
-                img = img.crop((left, top, right, bottom)).resize((target_size, target_size), Image.Resampling.LANCZOS)
-                
                 if target_format in ['jpeg', 'jpg'] and img.mode in ('RGBA', 'LA', 'P'):
                     background = Image.new('RGB', img.size, (255, 255, 255))
                     if img.mode == 'P':
