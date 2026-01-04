@@ -28,7 +28,7 @@ class Config:
     
     ALLOWED_FORMATS = ['png', 'jpeg', 'jpg', 'webp'] # TODO: Add more image formats later
     
-    MAX_FILE_SIZE = 250 * 1024 * 1024 # 250MB
+    MAX_FILE_SIZE = 750 * 1024 * 1024 # 250MB
     CLEANUP_DELAY = 600 # Delete files after 10 minutes
 
 
