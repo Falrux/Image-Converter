@@ -34,6 +34,7 @@ class Config:
 
 
 file_registry = {}
+
 def cleanup_old_files():
     current_time = time.time()
     files_to_remove = []
@@ -48,13 +49,12 @@ def cleanup_old_files():
                 except:
                     pass
     
-    # Remove from registry
     for filename in files_to_remove:
         del file_registry[filename]
 
 def register_file(filename):
-    file_registry[filename] = time.time()
-
+    if filename not in file_registry:
+        file_registry[filename] = time.time()
 
 
 def download_image(url, dest):
