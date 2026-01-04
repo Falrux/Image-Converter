@@ -48,6 +48,7 @@ def cleanup_old_files():
                 except:
                     pass
     
+    # Remove from registry
     for filename in files_to_remove:
         del file_registry[filename]
 
@@ -88,8 +89,6 @@ def serve_js():
 
 @app.route('/convert_image', methods=['POST'])
 def convert_image():
-    cleanup_old_files()
-    
     try:
         target_format = request.form.get('format', 'png').lower()
         if target_format not in Config.ALLOWED_FORMATS:
@@ -159,6 +158,8 @@ def convert_image():
         
         converted_url = f"/static/{output_filename}"
         download_url = f"/download/{output_filename}"
+        
+        cleanup_old_files()
         
         return jsonify({
             "status": "success",
