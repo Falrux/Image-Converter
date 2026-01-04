@@ -33,7 +33,7 @@ class Config:
 
 def download_image(url, dest):
     try:
-        r = requests.get(url, timeout=10)
+        r = requests.get(url, timeout=5)
         if r.status_code == 200:
             with open(dest, 'wb') as f:
                 f.write(r.content)
@@ -111,9 +111,9 @@ def convert_image():
                 
                 save_kwargs = {}
                 if target_format in ['jpeg', 'jpg']:
-                    save_kwargs['quality'] = 95
+                    save_kwargs['quality'] = 85
                 elif target_format == 'webp':
-                    save_kwargs['quality'] = 95
+                    save_kwargs['quality'] = 85
                     save_kwargs['method'] = 6
                 
                 img.save(output_path, format=target_format.upper(), **save_kwargs)
@@ -187,9 +187,6 @@ def download_file(filename):
 
 
 if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", "5000")),
-        debug=os.environ.get("FLASK_DEBUG", "0") in ["1", "true", "yes"]
-    )
+    port = int(os.environ.get("PORT", "5000"))
+    debug = os.environ.get("FLASK_DEBUG", "0") in ["1", "true", "yes"]
     app.run(host="0.0.0.0", port=port, debug=debug)
