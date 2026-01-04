@@ -48,6 +48,14 @@ limitations under the License.
 ## Basically, this is a image convertion website but it runs on Vercel & Flask so it doesn't cost anything, including having no database. (everything is stored in a tmp folder.)
 ## You can set the file size limit in **api/server.py** (current limit is 250MB.)
 
+No ads
+No upload limit
+No sign up
+No logging
+Temp storing
+Fast convertion
+Supports direct file links
+
 ***
 
 ## License
