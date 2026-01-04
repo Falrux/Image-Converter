@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Open Source Image Converter</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Open Source Image Converter</h1>
+    </div>
+
+    <div class="main">
+        <div id="message"></div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('url')">Url</button>
+            <button class="tab" onclick="switchTab('upload')">Upload</button>
+        </div>
+
+        <div id="url-tab" class="tab-content active">
+            <textarea id="image-urls" rows="6" placeholder="1 image Url per line"></textarea>
+        </div>
+
+        <div id="upload-tab" class="tab-content">
+            <div class="drop-zone" id="drop-zone">
+                Drag or Click to upload...
+                <input type="file" id="file-input" hidden multiple accept="image/*">
+            </div>
+        </div>
+
+        <div class="format-section">
+            <div class="format-title">Format</div>
+            <select id="format-select" style="width: 100%; background: #0f0f12; border: 1px solid #2a2a2a; border-radius: 10px; padding: 14px; color: #fff; font-size: 0.95rem;">
+                <option value="">None</option>
+                <option value="png">PNG</option>
+                <option value="jpg">JPG</option>
+                <option value="jpeg">JPEG</option>
+                <option value="webp">WebP</option>
+                <option value="bmp">BMP</option>
+                <option value="tiff">TIFF</option>
+            </select>
+        </div>
+
+        <button class="convert-btn" id="convert-btn" onclick="convertImages()">Convert</button>
+
+        <div id="loading" class="loading" style="display:none;">Converting…</div>
+
+        <div class="preview" id="preview" style="display:none;">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <button id="download-all-btn" class="download-all-btn">Download All</button>
+            </div>
+            <div class="preview-grid" id="preview-grid"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/script.js"></script>
+</body>
+</html>
